@@ -16,22 +16,26 @@ module Hacer
           YAML.dump([],file)
         end
       end
-      @size = 0
+      @todos = []
     end
+
 
     # Create a new todo and store it in this list
     def create(todo_text)
-      @size += 1
-      return Todo.new(todo_text)
+      todo = Todo.new(todo_text)
+      @todos << todo
+      todo
     end
 
     # Return all todos in this Todolist
     def list
-      self.size.times.map(&:to_s)
+      @todos
     end
 
     # Returns the size of the todolist as an Int
-    attr_reader :size
+    def size
+      @todos.size
+    end
   end
 
   class Todo

@@ -65,5 +65,6 @@ class TC_testTodoList < Test::Unit::TestCase
     todo_list.create("Rake some leaves")
     todos = todo_list.list
     assert_equal 2,todos.size
+    assert todos[0].kind_of?(Todo),"Expected a Todo, but got a #{todos[0].class}"
   end
 end
