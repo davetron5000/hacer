@@ -11,7 +11,7 @@ module Hacer
       @filename = filename
       if File.exists?(@filename)
         @todos = File.open(@filename) { |file| YAML.load(file) }
-        raise ArgumentError.new("#{@filename} doesn't appear to be an hacer todo list") unless @todos.kind_of? Array
+        raise ArgumentError.new("#{@filename} doesn't appear to be an hacer todo list") unless valid_todolist?
       else
         @todos = []
         save_todos
@@ -44,6 +44,16 @@ module Hacer
         YAML.dump(@todos,file)
       end
     end
+
+    # Returns true if what we parsed into @todos is a valid todo list
+    def valid_todolist?
+      return false unless @todos.kind_of? Array
+      @todos.each do |todo|
+        return false unless todo.kind_of? Todo
+      end
+      true
+    end
+
   end
 
   class Todo

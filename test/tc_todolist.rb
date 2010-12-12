@@ -26,18 +26,18 @@ class TC_testTodoList < Test::Unit::TestCase
   end
 
   def test_use_existing_todolist
-    File.open(@filename,'w') { |file| YAML.dump(["FOO"],file) }
-    expected_contents = YAML.dump(["FOO"])
+    File.open(@filename,'w') { |file| YAML.dump([Todo.new("FOO")],file) }
+    expected_contents = YAML.dump([Todo.new("FOO")])
     todo_list = Todolist.new(@filename)
     contents = File.readlines(@filename).join("\n") + "\n"
     assert_equal expected_contents,contents,"#{@filename} got overwritten when it shouldn't have been"
   end
 
-  def test_bad_form_fat_causes_exception
+  def test_bad_format_causes_exception
     File.open(@filename,'w') { |file| file.puts "FOO" }
-    assert_raises ArgumentError do 
-      todo_list = Todolist.new(@filename)
-    end
+    assert_raises(ArgumentError) { todo_list = Todolist.new(@filename) }
+    File.open(@filename,'w') { |file| YAML.dump(["FOO"],file) }
+    assert_raises(ArgumentError) { todo_list = Todolist.new(@filename) }
   end
 
   def test_create
