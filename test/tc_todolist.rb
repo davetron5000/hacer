@@ -89,6 +89,16 @@ class TC_testTodoList < Test::Unit::TestCase
     assert todo2.todo_id > todo1.todo_id,"Expected ids to increment, however todo2 had id of #{todo2.todo_id} and todo1 had an id of #{todo1.todo_id}"
   end
 
+  def test_completed
+    todo_list = Todolist.new(@filename)
+    todo1 = todo_list.create("Take out the garbage")
+    todo2 = todo_list.create("Rake some leaves")
+    todo_list.complete(todo1)
+    assert todo1.completed?
+    assert_equal 1,todo_list.size
+    assert_equal "Rake some leaves",todo_list.list[0].text
+  end
+
   def test_next_id_is_initialized
     todo_list = Todolist.new(@filename)
     todo1 = todo_list.create("Take out the garbage")

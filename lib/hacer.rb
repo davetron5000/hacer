@@ -33,7 +33,15 @@ module Hacer
       todo
     end
 
-    # Return all todos in this Todolist
+    # Completes this todo item
+    #
+    # todo - Todo to complete
+    def complete(todo)
+      todo.complete
+      @todos.delete(todo)
+    end
+
+    # Return all todos in this Todolist as an Array of Todo
     def list
       @todos
     end
@@ -72,9 +80,15 @@ module Hacer
   class Todo
     attr_reader :text
     attr_reader :todo_id
+    
     def initialize(text,todo_id)
       @todo_id = todo_id
       @text = text
+      @completed = false
     end
+
+    def complete; @completed = true; end
+    def completed?; @completed; end
+
   end
 end
