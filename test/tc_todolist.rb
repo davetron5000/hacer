@@ -19,7 +19,6 @@ class TC_testTodoList < Test::Unit::TestCase
     FakeFS.deactivate!
   end
 
-
   def test_create_new_todolist
     assert !File.exists?(@filename),"Expected #{@filename} not to exist"
     todo_list = Todolist.new(@filename)
@@ -39,5 +38,10 @@ class TC_testTodoList < Test::Unit::TestCase
     assert_raises ArgumentError do 
       todo_list = Todolist.new(@filename)
     end
+  end
+
+  def test_create
+    todo_list = Todolist.new(@filename)
+    assert_equal 0,todo_list.size
   end
 end
