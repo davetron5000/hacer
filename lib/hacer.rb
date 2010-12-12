@@ -38,17 +38,21 @@ module Hacer
     # todo - Todo to complete
     def complete(todo)
       todo.complete
-      @todos.delete(todo)
     end
 
     # Return all todos in this Todolist as an Array of Todo
-    def list
-      @todos
+    def list(show=:incomplete)
+      case show
+      when :incomplete: @todos.select { |todo| !todo.completed? }
+      when :all: @todos
+      else
+        raise ArgumentError.new("Only :incomplete or :all are allowed")
+      end
     end
 
     # Returns the size of the todolist as an Int
-    def size
-      @todos.size
+    def size(show=:incomplete)
+      return list(show).size
     end
 
     private

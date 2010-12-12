@@ -97,7 +97,12 @@ class TC_testTodoList < Test::Unit::TestCase
     assert todo1.completed?
     assert_equal 1,todo_list.size
     assert_equal "Rake some leaves",todo_list.list[0].text
+    assert_equal 2,todo_list.size(:all)
+    assert_equal "Take out the garbage",todo_list.list(:all)[0].text
+    assert todo_list.list(:all)[0].completed?
+    assert_equal "Rake some leaves",todo_list.list(:all)[1].text
   end
+
 
   def test_next_id_is_initialized
     todo_list = Todolist.new(@filename)
