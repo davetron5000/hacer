@@ -22,7 +22,7 @@ Hacer provides a few basic features for managing a simple todolist:
 
 === Bootstrapping
 
-The main entry into Hacer is Hacer::Todolist.  Create one by point it to the location where you want your todo list to live:
+The main entry into Hacer is Hacer::Todolist.  Create one by pointing it to the location where you want your todo list to live:
 
     todo_list = Hacer::Todolist.new("todos")
 
@@ -43,3 +43,17 @@ The Todolist essentially manages a list of Hacer::Todo items
 
     todo_list.clean!
     todo_list.list(:all) # => [Todo(2,Take out the trash)]
+
+== Notes
+
+* API created using {README driven development}[http://tom.preston-werner.com/2010/08/23/readme-driven-development.html]
+* Code created entirely using Test-Driven Development
+
+== Development
+
+    gem install bundler
+    bundle install
+    rake test
+    rake rcov
+
+
