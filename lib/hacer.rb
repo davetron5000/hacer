@@ -20,7 +20,7 @@ module Hacer
 
     # Create a new todo and store it in this list
     def create(todo_text)
-      todo = Todo.new(todo_text)
+      todo = Todo.new(todo_text,Todolist.next_id)
       @todos << todo
       save_todos
       todo
@@ -53,21 +53,21 @@ module Hacer
       end
       true
     end
-  end
 
-  class Todo
     @@next_id = 0
     def self.next_id
       next_id = @@next_id
       @@next_id += 1
       next_id
     end
+  end
 
+  class Todo
     attr_reader :text
     attr_reader :todo_id
-    def initialize(text)
+    def initialize(text,todo_id)
+      @todo_id = todo_id
       @text = text
-      @todo_id = Todo.next_id
     end
   end
 end

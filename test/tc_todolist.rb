@@ -26,7 +26,7 @@ class TC_testTodoList < Test::Unit::TestCase
   end
 
   def test_use_existing_todolist
-    todo = Todo.new("FOO")
+    todo = Todo.new("FOO",1)
     File.open(@filename,'w') { |file| YAML.dump([todo],file) }
     expected_contents = YAML.dump([todo])
     todo_list = Todolist.new(@filename)
@@ -71,13 +71,15 @@ class TC_testTodoList < Test::Unit::TestCase
 
   def test_list_persists
     todo_list = Todolist.new(@filename)
-    todo_list.create("Take out the garbage")
-    todo_list.create("Rake some leaves")
+    todo1 = todo_list.create("Take out the garbage")
+    todo2 = todo_list.create("Rake some leaves")
     new_todo_list_ref = Todolist.new(@filename)
     list = new_todo_list_ref.list
     assert_equal 2,list.size
     assert_equal "Take out the garbage",list[0].text
     assert_equal "Rake some leaves",list[1].text
+    assert_equal todo1.todo_id,list[0].todo_id
+    assert_equal todo2.todo_id,list[1].todo_id
   end
 
   def test_ids_increment
