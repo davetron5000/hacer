@@ -22,6 +22,7 @@ module Hacer
     # Create a new todo and store it in this list
     def create(todo_text)
       @size += 1
+      return Todo.new
     end
 
     # Return all todos in this Todolist
@@ -31,5 +32,8 @@ module Hacer
 
     # Returns the size of the todolist as an Int
     attr_reader :size
+  end
+
+  class Todo
   end
 end
