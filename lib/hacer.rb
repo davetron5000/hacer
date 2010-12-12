@@ -53,13 +53,21 @@ module Hacer
       end
       true
     end
-
   end
 
   class Todo
+    @@next_id = 0
+    def self.next_id
+      next_id = @@next_id
+      @@next_id += 1
+      next_id
+    end
+
     attr_reader :text
+    attr_reader :todo_id
     def initialize(text)
       @text = text
+      @todo_id = Todo.next_id
     end
   end
 end

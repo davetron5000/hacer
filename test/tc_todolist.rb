@@ -26,8 +26,9 @@ class TC_testTodoList < Test::Unit::TestCase
   end
 
   def test_use_existing_todolist
-    File.open(@filename,'w') { |file| YAML.dump([Todo.new("FOO")],file) }
-    expected_contents = YAML.dump([Todo.new("FOO")])
+    todo = Todo.new("FOO")
+    File.open(@filename,'w') { |file| YAML.dump([todo],file) }
+    expected_contents = YAML.dump([todo])
     todo_list = Todolist.new(@filename)
     contents = File.readlines(@filename).join("\n") + "\n"
     assert_equal expected_contents,contents,"#{@filename} got overwritten when it shouldn't have been"
@@ -77,5 +78,12 @@ class TC_testTodoList < Test::Unit::TestCase
     assert_equal 2,list.size
     assert_equal "Take out the garbage",list[0].text
     assert_equal "Rake some leaves",list[1].text
+  end
+
+  def test_ids_increment
+    todo_list = Todolist.new(@filename)
+    todo1 = todo_list.create("Take out the garbage")
+    todo2 = todo_list.create("Rake some leaves")
+    assert todo2.todo_id > todo1.todo_id,"Expected ids to increment, however todo2 had id of #{todo2.todo_id} and todo1 had an id of #{todo1.todo_id}"
   end
 end
