@@ -107,6 +107,12 @@ module Hacer
     def initialize
       raise "Use the Todolist to create todos"
     end
+
+    def to_s
+      s = "Todo(#{todo_id},#{text}"
+      s += ",completed" if completed?
+      s + ")"
+    end
   end
 
   # Internal Todo subclass for use only by Todolist; clients of Todolist should program
