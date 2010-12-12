@@ -1,8 +1,9 @@
 require 'yaml'
 
 module Hacer
+  # A todo list manages a list of Todo items.  It holds all Todo items, even completed ones, until you
+  # call clean!
   class Todolist
-
     # Create a new Todolist stored in the given filename
     #
     # filename - String containing the name of the file to create.  If the file exists, it will
@@ -21,6 +22,10 @@ module Hacer
     end
 
     # Create a new todo and store it in this list
+    #
+    # todo_text - String containing the text of the todo item
+    #
+    # Returns the Todo item created
     def create(todo_text)
       todo = Todo.new(todo_text,next_id)
       @todos << todo
