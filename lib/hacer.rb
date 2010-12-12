@@ -41,6 +41,12 @@ module Hacer
       save_todos
     end
 
+    # Cleans out any completed todos.  This cannot be undone an the completed todos will be lost forever
+    def clean!
+      @todos = self.list(:incomplete)
+      save_todos
+    end
+
     # Return all todos in this Todolist as an Array of Todo
     #
     # show - Symbol representing which todos to return, either :incomplete for only those not completed, or :all for everything

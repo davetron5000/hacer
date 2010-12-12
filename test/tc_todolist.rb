@@ -135,4 +135,15 @@ class TC_testTodoList < Test::Unit::TestCase
     end
     assert_equal todo2.todo_id + 1,todo_list.spy_on_next_id
   end
+
+  def test_clean
+    todo_list = Todolist.new(@filename)
+    todo1 = todo_list.create("Take out the garbage")
+    todo2 = todo_list.create("Rake some leaves")
+    todo_list.complete(todo1)
+    todo_list.clean!
+    assert_equal 1,todo_list.size(:all)
+    todo_list = Todolist.new(@filename)
+    assert_equal 1,todo_list.size(:all)
+  end
 end
