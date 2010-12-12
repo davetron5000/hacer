@@ -38,9 +38,12 @@ module Hacer
     # todo - Todo to complete
     def complete(todo)
       todo.complete
+      save_todos
     end
 
     # Return all todos in this Todolist as an Array of Todo
+    #
+    # show - Symbol representing which todos to return, either :incomplete for only those not completed, or :all for everything
     def list(show=:incomplete)
       case show
       when :incomplete: @todos.select { |todo| !todo.completed? }

@@ -105,6 +105,15 @@ class TC_testTodoList < Test::Unit::TestCase
     assert_equal "Rake some leaves",todo_list.list(:all)[1].text
   end
 
+  def test_completed_persists
+    todo_list = Todolist.new(@filename)
+    todo1 = todo_list.create("Take out the garbage")
+    todo2 = todo_list.create("Rake some leaves")
+    todo_list.complete(todo1)
+    todo_list = Todolist.new(@filename)
+    assert todo_list.list(:all)[0].completed?
+  end
+
   def test_valid_list_args
     todo_list = Todolist.new(@filename)
     todo1 = todo_list.create("Take out the garbage")
