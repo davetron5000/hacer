@@ -11,6 +11,8 @@ spec = Gem::Specification.new do |s|
   s.summary = 'A very simple todo list API'
   s.description = 'This is an extremely simple API for creating and managing todo lists.  The todo list is a simple YAML file that stores a list of todo items that can be completed/checked off'
   s.files = %w(
+    lib/hacer.rb
+    lib/hacer_version.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
