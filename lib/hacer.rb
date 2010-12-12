@@ -54,8 +54,8 @@ module Hacer
     #          [+:all+] show everything
     def list(show=:incomplete)
       case show
-      when :incomplete: @todos.select { |todo| !todo.completed? }
-      when :all: @todos
+      when :incomplete then @todos.select { |todo| !todo.completed? }
+      when :all then @todos
       else
         raise ArgumentError.new("Only :incomplete or :all are allowed")
       end
