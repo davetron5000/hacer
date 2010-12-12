@@ -1,0 +1,6 @@
+doc
+html
+*.sw?
+pkg
+coverage
+.bundle

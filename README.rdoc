@@ -1,0 +1,45 @@
+= Hacer: A very basic todo-list library
+
+Author::  Dave Copeland (mailto:davetron5000 at g mail dot com)
+Copyright:: Copyright (c) 2010 by Dave Copeland
+License:: Distributes under the Apache License, see LICENSE.txt in the source distro
+
+* {Source on Github}[http://github.com/davetron5000/hacer]
+* RDoc[http://davetron5000.github.com/hacer]
+
+== Use
+
+Install if you need to:
+
+    gem install hacer
+
+Hacer provides a few basic features for managing a simple todolist:
+
+* <b>Create</b> - Create a new todo item
+* <b>Complete</b> - Compete a todo item
+* <b>List</b> - List todo items
+* <b>Clean</b> - Clear completed items from your todo list
+
+=== Bootstrapping
+
+The main entry into Hacer is Hacer::Todolist.  Create one by point it to the location where you want your todo list to live:
+
+    todo_list = Hacer::Todolist.new("todos")
+
+=== API
+
+The Todolist essentially manages a list of Hacer::Todo items
+
+    todo = todo_list.create("Mow the lawn")
+    todo_list.list # => [Todo(1,Mow the lawn)]
+
+    todo = todo_list.create("Take out the trash")
+    todo_list.list # => [Todo(1,Mow the lawn), Todo(2,Take out the trash)]
+
+    todo.complete(1)
+    todo_list.list # => [Todo(2,Take out the trash)]
+
+    todo_list.list(:all) # => [Todo(1,Mow the lawn,completed), Todo(2,Take out the trash)]
+
+    todo_list.clean!
+    todo_list.list(:all) # => [Todo(2,Take out the trash)]
