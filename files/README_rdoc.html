@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>README.rdoc</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+    <script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            README.rdoc
+        </h1>
+        <ul class="files">
+            <li>README.rdoc</li>
+            <li>Last modified: Sun Dec 12 11:54:18 -0500 2010</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+    
+    <div class="description">
+        <h1>Hacer: A very basic todo-list library</h1>
+<table>
+<tr><td valign="top">Author:</td><td>Dave Copeland (<a href="mailto:davetron5000">davetron5000</a> at g mail dot
+com)
+
+</td></tr>
+<tr><td valign="top">Copyright:</td><td>Copyright &#169; 2010 by Dave Copeland
+
+</td></tr>
+<tr><td valign="top">License:</td><td>Distributes under the Apache License, see LICENSE.txt in the source distro
+
+</td></tr>
+</table>
+<ul>
+<li><a href="http://github.com/davetron5000/hacer">Source on Github</a>
+
+</li>
+<li><a href="http://davetron5000.github.com/hacer">RDoc</a>
+
+</li>
+</ul>
+<h2>Use</h2>
+<p>
+Install if you need to:
+</p>
+<pre>
+    gem install hacer
+</pre>
+<p>
+<a href="../classes/Hacer.html">Hacer</a> provides a few basic features for
+managing a simple todolist:
+</p>
+<ul>
+<li><b>Create</b> - Create a new todo item
+
+</li>
+<li><b>Complete</b> - Compete a todo item
+
+</li>
+<li><b>List</b> - List todo items
+
+</li>
+<li><b>Clean</b> - Clear completed items from your todo list
+
+</li>
+</ul>
+<h3>Bootstrapping</h3>
+<p>
+The main entry into <a href="../classes/Hacer.html">Hacer</a> is <a
+href="../classes/Hacer/Todolist.html">Hacer::Todolist</a>. Create one by
+point it to the location where you want your todo list to live:
+</p>
+<pre>
+    todo_list = Hacer::Todolist.new(&quot;todos&quot;)
+</pre>
+<h3>API</h3>
+<p>
+The Todolist essentially manages a list of <a
+href="../classes/Hacer/Todo.html">Hacer::Todo</a> items
+</p>
+<pre>
+    todo = todo_list.create(&quot;Mow the lawn&quot;)
+    todo_list.list # =&gt; [Todo(1,Mow the lawn)]
+
+    todo = todo_list.create(&quot;Take out the trash&quot;)
+    todo_list.list # =&gt; [Todo(1,Mow the lawn), Todo(2,Take out the trash)]
+
+    todo.complete(1)
+    todo_list.list # =&gt; [Todo(2,Take out the trash)]
+
+    todo_list.list(:all) # =&gt; [Todo(1,Mow the lawn,completed), Todo(2,Take out the trash)]
+
+    todo_list.clean!
+    todo_list.list(:all) # =&gt; [Todo(2,Take out the trash)]
+</pre>
+
+    </div>
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</div>
+    </div>
+  </body>
+</html>

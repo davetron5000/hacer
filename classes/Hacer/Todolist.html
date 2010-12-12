@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Hacer::Todolist</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            Hacer::Todolist 
+            
+                <span class="parent">&lt; 
+                    
+                    Object
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/hacer_rb.html">lib/hacer.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+    
+    <div class="description">
+        <p>
+A todo list manages a list of <a href="Todo.html">Todo</a> items. It holds
+all <a href="Todo.html">Todo</a> items, even completed ones, until you call
+clean!
+</p>
+
+    </div>
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>C</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000003">clean!</a>,</li>
+                
+                <li><a href="#M000002">complete</a>,</li>
+                
+                <li><a href="#M000001">create</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>L</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000004">list</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>N</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000000">new</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>S</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000005">size</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000000">
+                    
+                    <a name="M000000"></a><b>new</b>(filename)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Create a new <a href="Todolist.html">Todolist</a> stored in the given
+filename
+</p>
+<dl>
+<dt><tt>filename</tt></dt><dd>String containing the name of the file to create. If the file exists, it
+will be parsed as an <a href="../Hacer.html">Hacer</a> todolist. If this
+isn&#8217;t possible, an ArgumentError will be raised
+
+</dd>
+</dl>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000000_source')" id="l_M000000_source">show</a>
+                        
+                    </p>
+                    <div id="M000000_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/hacer.rb, line 11</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">filename</span>)
+      <span class="ruby-ivar">@filename</span> = <span class="ruby-identifier">filename</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-ivar">@filename</span>)
+        <span class="ruby-ivar">@todos</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-ivar">@filename</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">file</span>) }
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;#{@filename} doesn't appear to be an hacer todo list&quot;</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">valid_todolist?</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-ivar">@todos</span> = []
+        <span class="ruby-identifier">save_todos</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">todo_with_biggest_id</span> = <span class="ruby-ivar">@todos</span>.<span class="ruby-identifier">max</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span>,<span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">todo_id</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">todo_id</span> }
+      <span class="ruby-ivar">@next_id</span>  = <span class="ruby-identifier">todo_with_biggest_id</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-value">? </span><span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">todo_with_biggest_id</span>.<span class="ruby-identifier">todo_id</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000003">
+                    
+                    <a name="M000003"></a><b>clean!</b>()
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Cleans out any completed todos. This cannot be undone an the completed
+todos will be lost forever
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000003_source')" id="l_M000003_source">show</a>
+                        
+                    </p>
+                    <div id="M000003_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/hacer.rb, line 45</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clean!</span>
+      <span class="ruby-ivar">@todos</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">list</span>(<span class="ruby-identifier">:incomplete</span>)
+      <span class="ruby-identifier">save_todos</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000002">
+                    
+                    <a name="M000002"></a><b>complete</b>(todo)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Completes this todo item
+</p>
+<dl>
+<dt><tt>todo</tt></dt><dd><a href="Todo.html">Todo</a> to complete
+
+</dd>
+</dl>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000002_source')" id="l_M000002_source">show</a>
+                        
+                    </p>
+                    <div id="M000002_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/hacer.rb, line 39</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">complete</span>(<span class="ruby-identifier">todo</span>)
+      <span class="ruby-identifier">todo</span>.<span class="ruby-identifier">complete</span>
+      <span class="ruby-identifier">save_todos</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000001">
+                    
+                    <a name="M000001"></a><b>create</b>(todo_text)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Create a new todo and store it in this list
+</p>
+<dl>
+<dt><tt>todo_text</tt></dt><dd>String containing the text of the todo item
+
+</dd>
+</dl>
+<p>
+Returns the <a href="Todo.html">Todo</a> item created
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000001_source')" id="l_M000001_source">show</a>
+                        
+                    </p>
+                    <div id="M000001_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/hacer.rb, line 29</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">create</span>(<span class="ruby-identifier">todo_text</span>)
+      <span class="ruby-identifier">todo</span> = <span class="ruby-constant">TodoInternal</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">todo_text</span>,<span class="ruby-identifier">next_id</span>)
+      <span class="ruby-ivar">@todos</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">todo</span>
+      <span class="ruby-identifier">save_todos</span>
+      <span class="ruby-identifier">todo</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000004">
+                    
+                    <a name="M000004"></a><b>list</b>(show=:incomplete)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Return all todos in this <a href="Todolist.html">Todolist</a> as an Array
+of <a href="Todo.html">Todo</a>
+</p>
+<dl>
+<dt><tt>show</tt></dt><dd>Symbol representing which todos to return:
+
+<dl>
+<dt><tt>:incomplete</tt></dt><dd>show only those not completed
+
+</dd>
+<dt><tt>:all</tt></dt><dd>show everything
+
+</dd>
+</dl>
+</dd>
+</dl>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000004_source')" id="l_M000004_source">show</a>
+                        
+                    </p>
+                    <div id="M000004_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/hacer.rb, line 55</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list</span>(<span class="ruby-identifier">show</span>=<span class="ruby-identifier">:incomplete</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">show</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:incomplete</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@todos</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">todo</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">todo</span>.<span class="ruby-identifier">completed?</span> }
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:all</span><span class="ruby-operator">:</span> <span class="ruby-ivar">@todos</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">&quot;Only :incomplete or :all are allowed&quot;</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000005">
+                    
+                    <a name="M000005"></a><b>size</b>(show=:incomplete)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Returns the size of the todolist as an Int.
+</p>
+<dl>
+<dt><tt>show</tt></dt><dd>same as for <a href="Todolist.html#M000004">list</a>
+
+</dd>
+</dl>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000005_source')" id="l_M000005_source">show</a>
+                        
+                    </p>
+                    <div id="M000005_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/hacer.rb, line 67</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>(<span class="ruby-identifier">show</span>=<span class="ruby-identifier">:incomplete</span>)
+      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">list</span>(<span class="ruby-identifier">show</span>).<span class="ruby-identifier">size</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
+    </div>
+  </body>
+</html>    
