@@ -46,6 +46,7 @@ class TC_testTodoList < Test::Unit::TestCase
     todo = todo_list.create("Take out the garbage")
     assert_equal 1,todo_list.size
     assert todo.kind_of? Todo
+    assert_equal "Take out the garbage",todo.text
     todo_list.create("Rake some leaves")
     assert_equal 2,todo_list.size
   end
