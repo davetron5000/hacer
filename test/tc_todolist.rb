@@ -88,4 +88,17 @@ class TC_testTodoList < Test::Unit::TestCase
     todo2 = todo_list.create("Rake some leaves")
     assert todo2.todo_id > todo1.todo_id,"Expected ids to increment, however todo2 had id of #{todo2.todo_id} and todo1 had an id of #{todo1.todo_id}"
   end
+
+  def test_next_id_is_initialized
+    todo_list = Todolist.new(@filename)
+    todo1 = todo_list.create("Take out the garbage")
+    todo2 = todo_list.create("Rake some leaves")
+    todo_list = Todolist.new(@filename)
+    todo_list.instance_eval do
+      def spy_on_next_id
+        next_id
+      end
+    end
+    assert_equal todo2.todo_id + 1,todo_list.spy_on_next_id
+  end
 end

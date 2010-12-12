@@ -16,11 +16,13 @@ module Hacer
         @todos = []
         save_todos
       end
+      todo_with_biggest_id = @todos.max { |a,b| a.todo_id <=> b.todo_id }
+      @next_id  = todo_with_biggest_id.nil? ? 0 : todo_with_biggest_id.todo_id + 1
     end
 
     # Create a new todo and store it in this list
     def create(todo_text)
-      todo = Todo.new(todo_text,Todolist.next_id)
+      todo = Todo.new(todo_text,next_id)
       @todos << todo
       save_todos
       todo
@@ -54,10 +56,10 @@ module Hacer
       true
     end
 
-    @@next_id = 0
-    def self.next_id
-      next_id = @@next_id
-      @@next_id += 1
+    @next_id = 0
+    def next_id
+      next_id = @next_id
+      @next_id += 1
       next_id
     end
   end
