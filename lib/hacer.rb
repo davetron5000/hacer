@@ -8,22 +8,21 @@ module Hacer
     # filename - String containing the name of the file to create.  If the file exists, it will
     #            be parsed as an Hacer todolist.  If this isn't possible, an ArgumentError will be raised
     def initialize(filename)
-      if File.exists?(filename)
-        contents = File.open(filename) { |file| YAML.load(file) }
-        raise ArgumentError.new("#{filename} doesn't appear to be an hacer todo list") unless contents.kind_of? Array
+      @filename = filename
+      if File.exists?(@filename)
+        @todos = File.open(@filename) { |file| YAML.load(file) }
+        raise ArgumentError.new("#{@filename} doesn't appear to be an hacer todo list") unless @todos.kind_of? Array
       else
-        File.open(filename,'w') do |file|
-          YAML.dump([],file)
-        end
+        @todos = []
+        save_todos
       end
-      @todos = []
     end
-
 
     # Create a new todo and store it in this list
     def create(todo_text)
       todo = Todo.new(todo_text)
       @todos << todo
+      save_todos
       todo
     end
 
@@ -35,6 +34,15 @@ module Hacer
     # Returns the size of the todolist as an Int
     def size
       @todos.size
+    end
+
+    private
+
+    # Saves the todos into the filename
+    def save_todos
+      File.open(@filename,'w') do |file|
+        YAML.dump(@todos,file)
+      end
     end
   end
 

@@ -67,4 +67,15 @@ class TC_testTodoList < Test::Unit::TestCase
     assert_equal 2,todos.size
     assert todos[0].kind_of?(Todo),"Expected a Todo, but got a #{todos[0].class}"
   end
+
+  def test_list_persists
+    todo_list = Todolist.new(@filename)
+    todo_list.create("Take out the garbage")
+    todo_list.create("Rake some leaves")
+    new_todo_list_ref = Todolist.new(@filename)
+    list = new_todo_list_ref.list
+    assert_equal 2,list.size
+    assert_equal "Take out the garbage",list[0].text
+    assert_equal "Rake some leaves",list[1].text
+  end
 end
