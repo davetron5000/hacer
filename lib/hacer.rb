@@ -16,11 +16,14 @@ module Hacer
           YAML.dump([],file)
         end
       end
+      @size = 0
+    end
+
+    def create(todo_text)
+      @size += 1
     end
 
     # Returns the size of the todolist as an Int
-    def size
-      0
-    end
+    attr_reader :size
   end
 end

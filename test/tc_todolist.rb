@@ -43,5 +43,7 @@ class TC_testTodoList < Test::Unit::TestCase
   def test_create
     todo_list = Todolist.new(@filename)
     assert_equal 0,todo_list.size
+    todo_list.create("Take out the garbage")
+    assert_equal 1,todo_list.size
   end
 end
