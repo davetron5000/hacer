@@ -9,6 +9,7 @@ class TC_testTodoList < Test::Unit::TestCase
   include FileUtils
   include Hacer
 
+
   def test_create_new_todolist
     FakeFS do
       filename = "/tmp/todo"
@@ -22,11 +23,23 @@ class TC_testTodoList < Test::Unit::TestCase
   def test_use_existing_todolist
     FakeFS do
       filename = "/tmp/todo"
+      rm(filename)
       File.open(filename,'w') { |file| YAML.dump(["FOO"],file) }
       expected_contents = YAML.dump(["FOO"])
       todo_list = Todolist.new(filename)
       contents = File.readlines(filename).join("\n") + "\n"
       assert_equal expected_contents,contents,"#{filename} got overwritten when it shouldn't have been"
+    end
+  end
+
+  def test_bad_format_causes_exception
+    FakeFS do
+      filename = "/tmp/todo"
+      rm(filename)
+      File.open(filename,'w') { |file| file.puts "FOO" }
+      assert_raises ArgumentError do 
+        todo_list = Todolist.new(filename)
+      end
     end
   end
 end
