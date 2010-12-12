@@ -48,4 +48,12 @@ class TC_testTodoList < Test::Unit::TestCase
     todo_list.create("Rake some leaves")
     assert_equal 2,todo_list.size
   end
+
+  def test_list
+    todo_list = Todolist.new(@filename)
+    todo_list.create("Take out the garbage")
+    todo_list.create("Rake some leaves")
+    todos = todo_list.list
+    assert_equal 2,todos.size
+  end
 end

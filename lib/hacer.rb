@@ -19,8 +19,14 @@ module Hacer
       @size = 0
     end
 
+    # Create a new todo and store it in this list
     def create(todo_text)
       @size += 1
+    end
+
+    # Return all todos in this Todolist
+    def list
+      self.size.times.map(&:to_s)
     end
 
     # Returns the size of the todolist as an Int
