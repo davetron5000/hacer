@@ -1,13 +1,13 @@
 require 'yaml'
 
+# See Hacer::Todolist
 module Hacer
   # A todo list manages a list of Todo items.  It holds all Todo items, even completed ones, until you
   # call clean!
   class Todolist
     # Create a new Todolist stored in the given filename
     #
-    # filename - String containing the name of the file to create.  If the file exists, it will
-    #            be parsed as an Hacer todolist.  If this isn't possible, an ArgumentError will be raised
+    # [+filename+] String containing the name of the file to create.  If the file exists, it will be parsed as an Hacer todolist.  If this isn't possible, an ArgumentError will be raised
     def initialize(filename)
       @filename = filename
       if File.exists?(@filename)
@@ -23,11 +23,11 @@ module Hacer
 
     # Create a new todo and store it in this list
     #
-    # todo_text - String containing the text of the todo item
+    # [+todo_text+] String containing the text of the todo item
     #
     # Returns the Todo item created
     def create(todo_text)
-      todo = Todo.new(todo_text,next_id)
+      todo = TodoInternal.new(todo_text,next_id)
       @todos << todo
       save_todos
       todo
@@ -35,7 +35,7 @@ module Hacer
 
     # Completes this todo item
     #
-    # todo - Todo to complete
+    # [+todo+] Todo to complete
     def complete(todo)
       todo.complete
       save_todos
@@ -49,7 +49,9 @@ module Hacer
 
     # Return all todos in this Todolist as an Array of Todo
     #
-    # show - Symbol representing which todos to return, either :incomplete for only those not completed, or :all for everything
+    # [+show+] Symbol representing which todos to return:
+    #          [+:incomplete+] show only those not completed
+    #          [+:all+] show everything
     def list(show=:incomplete)
       case show
       when :incomplete: @todos.select { |todo| !todo.completed? }
@@ -59,7 +61,9 @@ module Hacer
       end
     end
 
-    # Returns the size of the todolist as an Int
+    # Returns the size of the todolist as an Int.
+    #
+    # [+show+] same as for #list
     def size(show=:incomplete)
       return list(show).size
     end
@@ -91,9 +95,28 @@ module Hacer
   end
 
   class Todo
+    # Text of the todo
     attr_reader :text
+    # id of the todo
     attr_reader :todo_id
+
+    # Returns true if this todo has been completed
+    def completed?; @completed; end
+
+    # Do not create Todos this way, use the Todolist instead
+    def initialize
+      raise "Use the Todolist to create todos"
+    end
+  end
+
+  # Internal Todo subclass for use only by Todolist; clients of Todolist should program
+  # against Todo :nodoc:
+  class TodoInternal < Todo #:nodoc:
     
+    # Create a new todo
+    #
+    # [+text+] Text for this todo, e.g. "Take out the trash"
+    # [+todo_id+] the identifier for this todo
     def initialize(text,todo_id)
       @todo_id = todo_id
       @text = text
@@ -101,7 +124,5 @@ module Hacer
     end
 
     def complete; @completed = true; end
-    def completed?; @completed; end
-
   end
 end

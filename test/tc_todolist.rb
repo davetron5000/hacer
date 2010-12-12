@@ -26,7 +26,7 @@ class TC_testTodoList < Test::Unit::TestCase
   end
 
   def test_use_existing_todolist
-    todo = Todo.new("FOO",1)
+    todo = TodoInternal.new("FOO",1)
     File.open(@filename,'w') { |file| YAML.dump([todo],file) }
     expected_contents = YAML.dump([todo])
     todo_list = Todolist.new(@filename)
