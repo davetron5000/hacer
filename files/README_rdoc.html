@@ -19,7 +19,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: Sun Dec 12 11:54:18 -0500 2010</li>
+            <li>Last modified: Sun Dec 12 13:48:19 -0500 2010</li>
         </ul>
     </div>
 
@@ -77,7 +77,7 @@ managing a simple todolist:
 <p>
 The main entry into <a href="../classes/Hacer.html">Hacer</a> is <a
 href="../classes/Hacer/Todolist.html">Hacer::Todolist</a>. Create one by
-point it to the location where you want your todo list to live:
+pointing it to the location where you want your todo list to live:
 </p>
 <pre>
     todo_list = Hacer::Todolist.new(&quot;todos&quot;)
@@ -101,6 +101,24 @@ href="../classes/Hacer/Todo.html">Hacer::Todo</a> items
 
     todo_list.clean!
     todo_list.list(:all) # =&gt; [Todo(2,Take out the trash)]
+</pre>
+<h2>Notes</h2>
+<ul>
+<li>API created using <a
+href="http://tom.preston-werner.com/2010/08/23/readme-driven-development.html">README
+driven development</a>
+
+</li>
+<li>Code created entirely using Test-Driven Development
+
+</li>
+</ul>
+<h2>Development</h2>
+<pre>
+    gem install bundler
+    bundle install
+    rake test
+    rake rcov
 </pre>
 
     </div>
