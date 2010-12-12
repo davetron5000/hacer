@@ -67,6 +67,8 @@ class TC_testTodoList < Test::Unit::TestCase
     todos = todo_list.list
     assert_equal 2,todos.size
     assert todos[0].kind_of?(Todo),"Expected a Todo, but got a #{todos[0].class}"
+    assert_equal 2,todo_list.list(:incomplete).size
+    assert_equal 2,todo_list.size(:incomplete)
   end
 
   def test_list_persists
@@ -101,6 +103,14 @@ class TC_testTodoList < Test::Unit::TestCase
     assert_equal "Take out the garbage",todo_list.list(:all)[0].text
     assert todo_list.list(:all)[0].completed?
     assert_equal "Rake some leaves",todo_list.list(:all)[1].text
+  end
+
+  def test_valid_list_args
+    todo_list = Todolist.new(@filename)
+    todo1 = todo_list.create("Take out the garbage")
+    todo2 = todo_list.create("Rake some leaves")
+    assert_raises(ArgumentError) { todo_list.list(:foo) }
+    assert_raises(ArgumentError) { todo_list.size(:foo) }
   end
 
 
